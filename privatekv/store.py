@@ -16,11 +16,6 @@ class KVORAM(object):
     """
     KVORAM objects wrap a PathORAM object. KVORAM acts as an abstraction layer
     to provide the user with an easy to use key-value inteface.
-
-    Each block in the ORAM holds one value. The block ID is computed using the
-    Python hash function. As of Python 3.3, the hash is salted with a random
-    seed. To be able to use this class, you MUST set the "PYTHONHASHSEED"
-    environment variable.
     """
     def __init__(self, oram):
         """

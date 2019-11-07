@@ -2,6 +2,7 @@
 
 import os
 import sys
+import tempfile
 import unittest
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__),
                                                 "..")))
@@ -9,6 +10,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__),
 from pyoram.oblivious_storage.tree.path_oram import PathORAM
 
 import privatekv.store
+import privatekv.utils
 
 BLOCK_SIZE = 4096
 BLOCK_COUNT = 2 ** (8 + 1) - 1
@@ -39,6 +41,30 @@ class TestKVORAM(unittest.TestCase):
         self.assertRaises(privatekv.store.KeyNotFoundError, self.store.get,
                           "thisdoesnotexist")
         self.assertRaises(privatekv.store.KeyNotFoundError, self.store.get, 3)
+
+class TestUtils(unittest.TestCase):
+    def setUp(self):
+        self.tmpdir = tempfile.TemporaryDirectory()
+
+    def tearDown(self):
+        self.tmpdir.cleanup()
+
+    def test_load_save_client_data(self):
+        oram = PathORAM.setup(os.path.join(self.tmpdir.name, "test"), BLOCK_SIZE,
+                              BLOCK_COUNT, storage_type="file",
+                              ignore_existing=True)
+        data = b"hello world"
+        data += b"\x00" * (oram.block_size - len(data))
+        oram.write_block(0, bytes(data))
+        oram.close()
+        privatekv.utils.save_oram_client_data(oram, path=self.tmpdir.name)
+
+        key, stash, pm = privatekv.utils.read_oram_client_data("test",
+                                                               path=self.tmpdir.name)
+        oram = PathORAM(os.path.join(self.tmpdir.name, "test"), stash, pm, key=key,
+                        storage_type="file")
+        self.assertEqual(data, oram.read_block(0))
+        oram.close()
 
 if __name__ == "__main__":
     unittest.main()
