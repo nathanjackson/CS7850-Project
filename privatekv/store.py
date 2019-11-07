@@ -73,35 +73,3 @@ class KVORAM(object):
             return bucket[key]
         except pickle.UnpicklingError as e:
             raise KeyNotFoundError(key) from e
-
-    def close(self):
-        self.oram.close()
-        storename = self.oram._oram.storage_heap.storage_name
-        keyfile_name = "%s.key" % (storename)
-        stashfile_name = "%s.stash" % (storename)
-        positionfile_name = "%s.position" % (storename)
-
-        with open(keyfile_name, "wb") as keyfile:
-            keyfile.write(self.oram.key)
-        with open(stashfile_name, "wb") as stashfile:
-            pickle.dump(self.oram.stash, stashfile)
-        with open(positionfile_name, "wb") as positionfile:
-            pickle.dump(self.oram.position_map, positionfile)
-
-    @classmethod
-    def setup(cls, storename):
-        keyfile_name = "%s.key" % (storename)
-        stashfile_name = "%s.stash" % (storename)
-        positionfile_name = "%s.position" % (storename)
-
-        with open(keyfile_name, "rb") as keyfile:
-            key = keyfile.read()
-        with open(stashfile_name, "rb") as stashfile:
-            stash = pickle.load(stashfile)
-        with open(positionfile_name, "rb") as positionfile:
-            position_map = pickle.load(positionfile)
-
-        oram = PathORAM(storename, stash, position_map, key=key,
-                        storage_type="file")
-
-        return KVORAM(oram)
