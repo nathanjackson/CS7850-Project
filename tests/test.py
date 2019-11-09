@@ -66,5 +66,13 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(data, oram.read_block(0))
         oram.close()
 
+    def test_compute_level_load(self):
+        oram = PathORAM.setup("test", 32, 1, bucket_capacity=1,
+                              storage_type="ram", ignore_existing=True,
+                              cached_levels=0)
+        result = privatekv.utils.compute_avg_level_load(oram)
+        self.assertEqual(1.0, result[0])
+        oram.close()
+
 if __name__ == "__main__":
     unittest.main()
