@@ -53,6 +53,7 @@ class KVORAM(object):
 
     def _write_hash_bucket(self, block_id, bucket):
         pickled = pickle.dumps(bucket)
+        assert len(pickled) <= self.oram.block_size
         pickled += b"\x00" * (self.oram.block_size - len(pickled))
         self.oram.write_block(block_id, bytes(pickled))
 
