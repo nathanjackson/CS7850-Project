@@ -1,7 +1,12 @@
 # CS7850 Project
 
 Key-Value store based on Path ORAM. The Key-Value store code is stored in the
-`privatekv` module. Some basic unit tests are also provided.
+`privatekv` module. Some basic unit tests are also provided. The key-value store
+code itself was implemented by me as were the unit tests. All experiments were
+written by me as well.
+
+I made use of PickleDB (https://pythonhosted.org/pickleDB/) for comparion
+purposes as well as the Amazon Web Service (AWS) `boto3` library.
 
 The Path ORAM implementation is provided by PyORAM: https://github.com/ghackebeil/PyORAM.
 
@@ -17,9 +22,9 @@ All code is written in Python 3.
 
 All experiments were done on a computer with the following specifications:
 
-Intel Core i7-4770
-32GB of DDR3-1600  RAM
-Fedora 30
+- Intel Core i7-4770
+- 32GB of DDR3-1600  RAM
+- Fedora 30
 
 If you were going to actually use this code, you currently would have to
 disable Python's random salting of the built in hash function. See:
@@ -205,7 +210,7 @@ The output of each step is a CSV file containing the insert times.
 ## Experiment 5
 
 This experiment is designed to compare the number of GET and PUT requests on a
-per-block level to S3.
+per-block level to S3. This is used to check for access patterns.
 
 You must set the following environment variables first:
 
