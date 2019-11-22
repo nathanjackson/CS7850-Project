@@ -15,7 +15,7 @@ def randomString(stringLength=10):
     return ''.join(random.choice(letters) for i in range(stringLength))
 
 if __name__ == "__main__":
-    ap = ArgumentParser(description="runs the pickledb insert test")
+    ap = ArgumentParser(description="runs the pickledb insert time test")
     args = ap.parse_args()
 
     db = pickledb.load("insert_time.db", False)

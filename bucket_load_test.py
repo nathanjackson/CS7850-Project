@@ -20,7 +20,7 @@ def randomString(stringLength=10):
     return ''.join(random.choice(letters) for i in range(stringLength))
 
 if __name__ == "__main__":
-    ap = ArgumentParser(description="runs the Path ORAM bucket load test")
+    ap = ArgumentParser(description="runs the PrivateKV bucket load test")
     ap.add_argument("-z", default=4, type=int, help="number of blocks in a bucket")
     args = ap.parse_args()
 
@@ -45,23 +45,3 @@ if __name__ == "__main__":
         print("%d,%f" % (level, loads[level]))
 
     oram.close()
-
-#
-#oram = PathORAM.setup("test", BLOCK_SIZE, BLOCK_COUNT, storage_type="ram",
-#                      ignore_existing=True)
-#
-#kv = privatekv.store.KVORAM(oram)
-#
-#max_stash_size = 0
-#
-#n = 1000000000
-#for i in range(n):
-#    key = random.randint(0, 100000)
-#    kv.put(key, randomString())
-#
-#    stash_size = len(oram.stash)
-#    if stash_size > max_stash_size:
-#        max_stash_size = stash_size
-#
-#    if i % 1000 == 0:
-#        print("iterations = %d, max stash size = %d" % (i, max_stash_size))

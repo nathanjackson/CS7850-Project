@@ -24,7 +24,7 @@ def randomString(stringLength=10):
     return ''.join(random.choice(letters) for i in range(stringLength))
 
 if __name__ == "__main__":
-    ap = ArgumentParser(description="runs the Path ORAM S3 insertion performance test")
+    ap = ArgumentParser(description="runs the PrivateKV S3 access logging test")
     ap.add_argument("-b", default="test", help="the S3 bucket to use")
     ap.add_argument("-i", default=192, type=int, help="number of inserts")
     ap.add_argument("--create", default=False, action="store_true", help="only create the oram")

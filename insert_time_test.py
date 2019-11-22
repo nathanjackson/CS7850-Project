@@ -20,7 +20,7 @@ def randomString(stringLength=10):
     return ''.join(random.choice(letters) for i in range(stringLength))
 
 if __name__ == "__main__":
-    ap = ArgumentParser(description="runs the Path ORAM bucket load test")
+    ap = ArgumentParser(description="runs the PrivateKV local insert time test")
     ap.add_argument("-n", default=2**15, type=int, help="number of hash buckets")
     args = ap.parse_args()
 
